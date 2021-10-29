@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  database:
+    image: "postgres:12.3"
+    container_name: "ledger-database"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "./postgres/data:/var/lib/postgresql/data"
+      - "./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql"
+    ports:
+      - "5432:5432"

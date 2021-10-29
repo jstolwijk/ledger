@@ -1,0 +1,3 @@
+CREATE DATABASE ledger;
+CREATE USER admin WITH PASSWORD 'admin';
+GRANT ALL PRIVILEGES ON DATABASE "ledger" to admin;
