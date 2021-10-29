@@ -21,3 +21,7 @@ content-type: application/json
 		"orderReference": "39123912"
 	}
 }
+
+###
+
+POST http://localhost:8080/test HTTP/1.1
