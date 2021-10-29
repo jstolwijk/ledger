@@ -5,7 +5,7 @@ GET http://localhost:8080/health HTTP/1.1
 GET http://localhost:8080/ledgers HTTP/1.1
 
 ###
-
+# Note currencies are not supported (yet), mixing currencies will result in a mess 
 POST http://localhost:8080/journal HTTP/1.1
 content-type: application/json
 
@@ -14,7 +14,7 @@ content-type: application/json
 	"from": "jesse",
 	"to": "jan",
 	"amount": {
-		"value": 100,
+		"value": 1892,
 		"currency": "EUR"
 	},
 	"metadata": {

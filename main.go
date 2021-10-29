@@ -32,11 +32,11 @@ type Amount struct {
 }
 
 type Ledger struct {
-	Id         string `db:"id" json:"id"`
-	Name       string `db:"name" json:"name"`
-	FromAmount int64  `db:"from_amount" json:"fromAmount"`
-	ToAmount   int64  `db:"to_amount" json:"toAmount"`
-	Version    int64  `db:"version" json:"version"`
+	Id      string `db:"id" json:"id"`
+	Name    string `db:"name" json:"name"`
+	SumFrom int64  `db:"sum_from" json:"sumFrom"`
+	SumTo   int64  `db:"sum_to" json:"sumTo"`
+	Version int64  `db:"version" json:"version"`
 }
 
 // pgxpool is a thread-safe connection pool for PostgreSQL.
@@ -168,8 +168,8 @@ func addToJournal(request JournalEntryRequest) (*string, error) {
 	rawMetadata, _ := json.Marshal(request.Metadata)
 
 	if _, err := db.Exec(context.Background(), query, journalEntryId, request.IdempotencyKey, request.From, request.To, request.Amount.Value, request.Amount.Currency, rawMetadata); err == nil {
-		if _, err := db.Exec(context.Background(), insertLedgerEntry, ledgerEntryFromId, fromLedger.Id, fromLedger.Name, fromLedger.Version, journalEntryId, request.Amount.Currency, request.Amount.Value, nil, fromLedger.ToAmount, fromLedger.FromAmount); err == nil {
-			if _, err := db.Exec(context.Background(), insertLedgerEntry, ledgerEntryToId, toLedger.Id, toLedger.Name, toLedger.Version, journalEntryId, request.Amount.Currency, nil, request.Amount.Value, toLedger.ToAmount, toLedger.FromAmount); err == nil {
+		if _, err := db.Exec(context.Background(), insertLedgerEntry, ledgerEntryFromId, fromLedger.Id, fromLedger.Name, fromLedger.Version, journalEntryId, request.Amount.Currency, request.Amount.Value, nil, fromLedger.SumTo, fromLedger.SumFrom); err == nil {
+			if _, err := db.Exec(context.Background(), insertLedgerEntry, ledgerEntryToId, toLedger.Id, toLedger.Name, toLedger.Version, journalEntryId, request.Amount.Currency, nil, request.Amount.Value, toLedger.SumTo, toLedger.SumFrom); err == nil {
 				return &journalEntryId, nil
 			} else {
 				return nil, err
@@ -185,12 +185,12 @@ func addToJournal(request JournalEntryRequest) (*string, error) {
 func upsertLedger(ledgerName string, fromAmount int64, toAmount int64) (*Ledger, error) {
 	query := `
 		insert into ledger
-		(id, name, version, from_amount, to_amount) values
+		(id, name, version, sum_from, sum_to) values
 		($1, $2, 1, $3, $4)
 		on conflict (name) do update set
 		version = ledger.version + 1,
-		from_amount = ledger.from_amount + $3,
-		to_amount = ledger.to_amount + $4
+		sum_from = ledger.sum_from + $3,
+		sum_to = ledger.sum_to + $4
 		returning *
 	`
 

@@ -24,8 +24,8 @@ CREATE TABLE ledger(
     id uuid primary key not null,
     name text not null,
     version bigint not null,
-    from_amount bigint not null,
-    to_amount bigint not null
+    sum_from bigint not null,
+    sum_to bigint not null
 );
 CREATE UNIQUE INDEX ledger_name_idx ON ledger(name);
 ---- create above / drop below ----
