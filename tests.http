@@ -1,0 +1,23 @@
+GET http://localhost:8080/health HTTP/1.1
+
+###
+
+GET https://example.com/topics/1 HTTP/1.1
+
+###
+
+POST http://localhost:8080/journal HTTP/1.1
+content-type: application/json
+
+{
+	"idempotencyKey": "183",
+	"from": "jesse",
+	"to": "jan",
+	"amount": {
+		"value": 100,
+		"currency": "EUR"
+	},
+	"metadata": {
+		"orderReference": "39123912"
+	}
+}
