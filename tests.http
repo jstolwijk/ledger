@@ -2,7 +2,7 @@ GET http://localhost:8080/health HTTP/1.1
 
 ###
 
-GET https://example.com/topics/1 HTTP/1.1
+GET http://localhost:8080/ledgers HTTP/1.1
 
 ###
 

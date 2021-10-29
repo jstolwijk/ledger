@@ -7,4 +7,25 @@ create table journal_entry(
     amount_currency text not null,
     metadata jsonb not null
 );
+CREATE TABLE ledger_entry(
+    id uuid primary key not null,
+    ledger_id uuid not null,
+    ledger_name text not null,
+    ledger_version bigint not null,
+    journal_entry_id uuid not null,
+    currency text not null,
+    from_amount bigint,
+    to_amount bigint,
+    ledger_sum_to bigint not null,
+    ledger_sum_from bigint not null
+);
+CREATE UNIQUE INDEX ledger_entry_version_idx ON ledger_entry(ledger_name, ledger_version);
+CREATE TABLE ledger(
+    id uuid primary key not null,
+    name text not null,
+    version bigint not null,
+    from_amount bigint not null,
+    to_amount bigint not null
+);
+CREATE UNIQUE INDEX ledger_name_idx ON ledger(name);
 ---- create above / drop below ----

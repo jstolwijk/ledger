@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
+	github.com/georgysavva/scany v0.2.9
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect

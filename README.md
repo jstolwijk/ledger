@@ -1,5 +1,17 @@
 # ledger
 
+## Setup
+
+- install go
+- install docker
+- install docker-compose
+- cd dev-infrastructure
+- docker-compose up
+- in the project root: `tern migrate --migrations db-migrations`
+- start app: `go run .`
+
+## Execute requests
+
 Example requests are present in the `tests.http` file. You can execute execture the reqeuests by using [this](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) vscode plugin or intellij.
 
 ## How to scale
